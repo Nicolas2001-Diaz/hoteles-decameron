@@ -27,7 +27,15 @@ function HabitacionEditor({
     }
 
     function getAcomodaciones (tipoHabitacion) => {
-        
+         url = `/acomodaciones/${tipoHabitacion}`; 
+  
+         setLoading(true); 
+  
+         axiosClient.get(url).then(({ data }) => { 
+             setAcomodaciones(data.data); 
+  
+             setLoading(false);
+         });
     }
 
     useEffect(() => {

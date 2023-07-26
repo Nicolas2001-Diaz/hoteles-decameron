@@ -17,7 +17,7 @@ class HabitacionResource extends JsonResource
         return [
             'id' => $this->id,
             'cantidad' => $this->cantidad,
-            'acomodacion_tipo_habitaciones' => $this->acomodacion_tipo_habitaciones,
+            'acomodacion_tipo_habitaciones' => $this->acomodacion_tipo_habitaciones
         ];
     }
 }

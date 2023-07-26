@@ -15,7 +15,7 @@ function HabitacionEditor({
 
     const { tiposHabitacion, acomodaciones } = useStateContext();
 
-    función onTipoHabitacionChange (ev) => {
+    function onTipoHabitacionChange (ev) => {
        const newModel = {
          ...modelo,
          tipo: ev.target.value
@@ -26,7 +26,7 @@ function HabitacionEditor({
        getAcomodaciones(ev.target.value);
     }
 
-    función getAcomodaciones (tipoHabitacion) => {
+    function getAcomodaciones (tipoHabitacion) => {
         
     }
 

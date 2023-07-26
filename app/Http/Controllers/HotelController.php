@@ -41,19 +41,15 @@ class HotelController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Hotel $hotel)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateHotelRequest $request, Hotel $hotel)
     {
-        //
+        $data = $request->validated();
+
+        $hotel->update($data);
+
+        return new HotelResource($hotel);
     }
 
     /**
@@ -61,6 +57,8 @@ class HotelController extends Controller
      */
     public function destroy(Hotel $hotel)
     {
-        //
+        $hotel->delete();
+
+        return response('', 204);
     }
 }

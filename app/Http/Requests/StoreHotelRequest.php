@@ -26,7 +26,7 @@ class StoreHotelRequest extends FormRequest
             'direccion' => 'required|string|max:255',
             'ciudad' => 'required|string|max:255',
             'nit' => 'required|string|max:50',
-            'numero_habitaciones' => 'required|number'
+            'numero_habitaciones' => 'required|integer'
         ];
     }
 }

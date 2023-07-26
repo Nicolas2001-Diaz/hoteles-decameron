@@ -2,7 +2,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { useEffect, useState } from "react";
 import axiosClient from "../axios";
 import PaginationLinks from "../components/PaginationLinks";
-import HotelListItem from "../components/HotelListItem";
+import HotelListItem from "../components/hoteles/HotelListItem";
 
 function HomePage() {
     const { showToast } = useStateContext();

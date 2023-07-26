@@ -20,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                         <Route path="/" element={<HomePage />} />
                         <Route path="/add-hotel" element={<HotelFormPage />} />
                         <Route path="/hotel/:id" element={<HotelFormPage />} />
+                        <Route path="/hotel/:slug" element={<HotelFormPage />} />
                     </Routes>
                 </main>
                 

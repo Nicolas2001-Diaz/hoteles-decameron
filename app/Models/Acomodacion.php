@@ -5,23 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Hotel extends Model
+class Acomodacion extends Model
 {
     use HasFactory;
 
     /**
      * Tabla a la que hace referencia el modelo
      */
-    protected $table = "hoteles";
+    protected $table = "acomodaciones";
 
     /**
      * Agregamos los campos de la tabla requedios para la insercioón de un registro
      */
-    protected $fillable = ['nombre', 'direccion', 'ciudad', 'nit', 'numero_habitaciones'];
+    protected $fillable = ['acomodacion'];
 
-    /** Obtener las habitaciones del hotel */
-    public function habitaciones()
+
+    /**
+    * Los tipos de habitación que pertenecen a la acomodación
+    */
+    public function tipoHabitaciones()
     {
-        return $this->hasMany('App\models\Habitacion');
+        return $this->belongsToMany('App\Models\TipoHabitacion');
     }
 }

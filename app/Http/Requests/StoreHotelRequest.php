@@ -22,11 +22,12 @@ class StoreHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255|unique:hoteles,nombre',
             'direccion' => 'required|string|max:255',
             'ciudad' => 'required|string|max:255',
-            'nit' => 'required|string|max:50',
-            'numero_habitaciones' => 'required|integer'
+            'nit' => 'required|string|max:50|unique:hoteles,nit',
+            'numero_habitaciones' => 'required|integer',
+            'habitaciones' => 'array'
         ];
     }
 }

@@ -22,7 +22,8 @@ class HotelResource extends JsonResource
             "nit" => $this->nit,
             "numero_habitaciones" => $this->numero_habitaciones,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s')
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'habitaciones' => HabitacionResource::collection($this->habitaciones)
         ];
     }
 }

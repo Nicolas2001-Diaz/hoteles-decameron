@@ -10,7 +10,25 @@ function HabitacionEditor({
     habitacionChange,
 }) {
     const [model, setModel] = useState({ ...habitacion });
+    const [tiposHabitacion, setTiposHabitacion] = useState([]);
+    const [acomodaciones, setAcomodaciones] = useState([]);
+
     const { tiposHabitacion, acomodaciones } = useStateContext();
+
+    función onTipoHabitacionChange (ev) => {
+       const newModel = {
+         ...modelo,
+         tipo: ev.target.value
+       }
+       
+       setModel(newModel);
+       
+       getAcomodaciones(ev.target.value);
+    }
+
+    función getAcomodaciones (tipoHabitacion) => {
+        
+    }
 
     useEffect(() => {
         habitacionChange(model);
@@ -114,11 +132,7 @@ function HabitacionEditor({
                             id="tipo"
                             name="tipo"
                             value={model.tipo}
-                            onChange={(ev) =>
-                              setModel({
-                                  ...model,
-                                  tipo: ev.target.value,
-                              })}
+                            onChange={onTipoHabitacionChange}
                             className="w-full bg-zinc-700 text-white px-4 py-2 mb-2 rounded-md"
                         >
                             <option value="">Seleccione</option>

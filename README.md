@@ -2,7 +2,7 @@
 
 Para poder realizar la instalaciónn correctamente se necesita PHP 8.1, composer y Node.js.
 
-1. Descargar el proyecto (o clonarlo usando GIT)
+1. Descargar el proyecto (o clonarelo usando GIT)
 2. Copie el archivo `.env.example` en su archivo `.env` y configure las credenciales de la base de datos
 3. Navegue al directorio raíz del proyecto usando la terminal
 4. Ejecute el comonado `composer install`

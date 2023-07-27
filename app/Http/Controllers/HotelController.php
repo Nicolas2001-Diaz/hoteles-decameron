@@ -63,19 +63,22 @@ class HotelController extends Controller
 
         $hotel->update($data);
 
-        // Get ids as plain array of existing questions
+        // Obtener los ids como un array de las habitaciones existentes
         $existingIds = $hotel->habitaciones()->pluck('id')->toArray();
-        // Get ids as plain array of new questions
+
+        // Obtener los ids como un array de las habitaciones nuevas
         $newIds = Arr::pluck($data['habitaciones'], 'id');
-        // Find questions to delete
+
+        // Buscar las habitaciones para eliminar
         $toDelete = array_diff($existingIds, $newIds);
-        //Find questions to add
+
+        //Buscar las habitaciones para agregar
         $toAdd = array_diff($newIds, $existingIds);
 
-        // Delete questions by $toDelete array
+        // Borrar las habitaciones del array $toDelete
         Habitacion::destroy($toDelete);
 
-        // Crearn nuevas habitaciones
+        // Crear nuevas habitaciones
         foreach ($data['habitaciones'] as $habitacion) {
             if (in_array($habitacion['id'], $toAdd)) {
                 $habitacion['hotel_id'] = $hotel->id;
@@ -89,7 +92,7 @@ class HotelController extends Controller
 
         foreach ($hotel->habitaciones as $habitacion) {
             if (isset($habitacionMap[$habitacion->id])) {
-                $this->updateHabitacion($habitacion, $habitacionMap[$habitacion->id]);
+                $this->updateHabitacion($habitacion, $habitacionMap[$habitacion->id], $hotel->id);
             }
         }
 
@@ -108,6 +111,38 @@ class HotelController extends Controller
 
     private function createHabitacion($data)
     {
+        // Consulta si el tipo de acomodación que se selecciono es aceptado
+        $existType = DB::table('acomodacion_tipo_habitaciones')
+            ->where('acomodacion_id', $data['acomodacion'])
+            ->where('tipo_habitacion_id', $data['tipo'])
+            ->get();
+
+        // Si se puede registrar
+        if (count($existType) == 1) {
+            $data['acomodacion_tipo_habitacion_id'] = $existType[0]->id;
+
+            // Valida que no exista ya este la acomodcación y tipo de habitación 
+            $exist = Habitacion::query()
+                ->where('hotel_id', $data['hotel_id'])
+                ->where('acomodacion_tipo_habitacion_id', $data['acomodacion_tipo_habitacion_id'])
+                ->get();
+
+            // Si se puede registrar
+            if (count($exist) == 0) {
+                $validator = Validator::make($data, [
+                    'cantidad' => 'required|integer',
+                    'hotel_id' => 'exists:App\Models\Hotel,id',
+                    'acomodacion_tipo_habitacion_id' => 'required'
+                ]);
+
+                return Habitacion::create($validator->validated());
+            }
+        }
+    }
+
+    private function updateHabitacion(Habitacion $habitacion, $data, $hotel_id)
+    {
+        // Consulta si el tipo de acomodación que se selecciono es aceptado
         $existType = DB::table('acomodacion_tipo_habitaciones')
             ->where('acomodacion_id', $data['acomodacion'])
             ->where('tipo_habitacion_id', $data['tipo'])
@@ -115,50 +150,24 @@ class HotelController extends Controller
 
         if (count($existType) == 1) {
             $data['acomodacion_tipo_habitacion_id'] = $existType[0]->id;
-        } else {
-            return response('Error', 400);
-        }
 
-        $exist = Habitacion::query()
-                ->where('hotel_id', $data['hotel_id'])
+            // Valida que no exista ya este la acomodcación y tipo de habitación 
+            $exist = Habitacion::query()
+                ->where('hotel_id', $hotel_id)
                 ->where('acomodacion_tipo_habitacion_id', $data['acomodacion_tipo_habitacion_id'])
                 ->get();
 
-        if (count($exist) == 1) {
-            return response()->json(['error'=> 'asdsdadasdasddasd'], 400);
-        } else {
-            $validator = Validator::make($data, [
-                'cantidad' => 'required|integer',
-                'hotel_id' => 'exists:App\Models\Hotel,id',
-                'acomodacion_tipo_habitacion_id' => 'required'
-            ]);
+            // Si se puede registrar
+            if (count($exist) == 0) {
+                $validator = Validator::make($data, [
+                    'cantidad' => 'required|integer',
+                    'hotel_id' => 'exists:App\Models\Hotel,id',
+                    'acomodacion_tipo_habitacion_id' => 'required'
+                ]);
 
-            return Habitacion::create($validator->validated());
+                return $habitacion->update($validator->validated());
+            }
         }
-
-
-    }
-
-    private function updateHabitacion(Habitacion $habitacion, $data)
-    {
-        $exist = DB::table('acomodacion_tipo_habitaciones')
-            ->where('acomodacion_id', $data['acomodacion'])
-            ->where('tipo_habitacion_id', $data['tipo'])
-            ->get();
-
-        if (count($exist) == 1) {
-            $data['acomodacion_tipo_habitacion_id'] = $exist[0]->id;
-        } else {
-            return response('Error', 400);
-        }
-
-        $validator = Validator::make($data, [
-            'cantidad' => 'required|integer',
-            'hotel_id' => 'exists:App\Models\Hotel,id',
-            'acomodacion_tipo_habitacion_id' => 'required'
-        ]);
-
-        return $habitacion->update($validator->validated());
     }
 
     public function getBySlug(Hotel $hotel)
@@ -168,6 +177,7 @@ class HotelController extends Controller
 
     function getTipoHabitaciones()
     {
+        // Obtener los tipos de habiaciones existentes
         return TipoHabitacionResource::collection(
             TipoHabitacion::query()->orderBy('id', 'ASC')->get()
         );
@@ -175,6 +185,7 @@ class HotelController extends Controller
 
     public function getAcomodaciones($id)
     {
+        //Obtener las acomodaciones aceptadas para el tipo de habitación
         $acomodaciones = TipoHabitacion::find($id)->acomodaciones()->orderBy('id', 'ASC')->get();
 
         return AcomodacionResource::collection($acomodaciones);

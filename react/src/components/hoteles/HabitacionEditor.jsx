@@ -109,7 +109,7 @@ function HabitacionEditor({
                 </div>
 
                 <div className="flex gap-1 justify-between items-center mb-3">
-                    {/* Question Text */}
+                    {/* Cantidad */}
                     <div>
                         <label
                             htmlFor="cantidad"
@@ -132,9 +132,9 @@ function HabitacionEditor({
                             className="w-full bg-zinc-700 text-white px-4 py-2 mb-2 rounded-md"
                         />
                     </div>
-                    {/* Question Text */}
+                    {/* Cantidad */}
 
-                    {/* Question Type */}
+                    {/* Tipo de habitación */}
                     <div>
                         <label
                             htmlFor="tipo"
@@ -159,9 +159,9 @@ function HabitacionEditor({
                             ))}
                         </select>
                     </div>
-                    {/* Question Type */}
+                    {/* Tipo de habitación */}
 
-                    {/* Question Type */}
+                    {/* Tipo de acomodación */}
                     <div>
                         <label
                             htmlFor="acomodacion"
@@ -189,7 +189,7 @@ function HabitacionEditor({
                             ))}
                         </select>
                     </div>
-                    {/* Question Type */}
+                    {/* Tipo de acomodación */}
                 </div>
             </div>
 

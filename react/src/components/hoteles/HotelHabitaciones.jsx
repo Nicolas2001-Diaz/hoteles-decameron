@@ -3,50 +3,50 @@ import HabitacionEditor from "./HabitacionEditor";
 import { useEffect, useState } from "react";
 
 function HotelHabitaciones({ habitaciones, onHabitacionesUpdate }) {
-    const [myQuestions, setMyQuestions] = useState([...habitaciones]);
+    const [misHabitaciones, setMisHabitaciones] = useState([...habitaciones]);
 
     const [posicion, setPosicion] = useState(0);
 
-    const addQuestion = (index) => {
+    const addHabitacion = (index) => {
         setPosicion(posicion+1);
 
-        index = index !== undefined ? index : myQuestions.length;
+        index = index !== undefined ? index : misHabitaciones.length;
 
-        myQuestions.splice(index, 0, {
+        misHabitaciones.splice(index, 0, {
             id: posicion,
             cantidad: "",
             tipo: "",
             acomodacion: "",
         });
 
-        setMyQuestions([...myQuestions]);
-        onHabitacionesUpdate(myQuestions);
+        setMisHabitaciones([...misHabitaciones]);
+        onHabitacionesUpdate(misHabitaciones);
     };
 
-    const questionChange = (question) => {
-        if (!question) return;
+    const habitacionChange = (habitacion) => {
+        if (!habitacion) return;
 
-        const newQuestions = myQuestions.map((q) => {
-            if (q.id === question.id) {
-                return { ...question };
+        const newHabitaciones = misHabitaciones.map((q) => {
+            if (q.id === habitacion.id) {
+                return { ...habitacion };
             }
 
             return q;
         });
 
-        setMyQuestions(newQuestions);
-        onHabitacionesUpdate(newQuestions);
+        setMisHabitaciones(newHabitaciones);
+        onHabitacionesUpdate(newHabitaciones);
     };
 
-    const deleteQuestion = (question) => {
-        const newQuestions = myQuestions.filter((q) => q.id !== question.id);
+    const deleteHabitacion = (habitacion) => {
+        const newHabitaciones = misHabitaciones.filter((q) => q.id !== habitacion.id);
 
-        setMyQuestions(newQuestions);
-        onHabitacionesUpdate(newQuestions);
+        setMisHabitaciones(newHabitaciones);
+        onHabitacionesUpdate(newHabitaciones);
     };
 
     useEffect(() => {
-        setMyQuestions(habitaciones);
+        setMisHabitaciones(habitaciones);
     }, [habitaciones]);
 
     return (
@@ -57,22 +57,22 @@ function HotelHabitaciones({ habitaciones, onHabitacionesUpdate }) {
                 <button
                     type="button"
                     className="flex items-center text-sm py-1 px-4 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
-                    onClick={() => addQuestion()}
+                    onClick={() => addHabitacion()}
                 >
                     <PlusIcon className="w-4 mr-2" />
                     Agregar Habitación
                 </button>
             </div>
 
-            {myQuestions.length ? (
-                myQuestions.map((q, ind) => (
+            {misHabitaciones.length ? (
+                misHabitaciones.map((q, ind) => (
                     <HabitacionEditor
                         key={q.id}
                         index={ind}
                         habitacion={q}
-                        habitacionChange={questionChange}
-                        addHabitacion={addQuestion}
-                        deleteHabitacion={deleteQuestion}
+                        habitacionChange={habitacionChange}
+                        addHabitacion={addHabitacion}
+                        deleteHabitacion={deleteHabitacion}
                     />
                 ))
             ) : (

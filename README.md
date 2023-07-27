@@ -1,6 +1,6 @@
 ## Instalación del proyecto
 
-Para poder realizar la instalaciónn correctamente se necesita PHP 8.1, composer y Node.js.
+Para poder realizar la instalaciónn correctamente se necesita PHP 8.1, composer en su versión 2.* y Node.js en su versión estable más actual.
 
 1. Descargar el proyecto (o clonelo usando GIT)
 2. Copie el archivo `.env.example` en su archivo `.env` y configure las credenciales de postqreslq para la base de datos

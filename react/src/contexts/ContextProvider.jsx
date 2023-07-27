@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 const stateContext = createContext({
     tiposHabitacion: [],
     acomodaciones: [],
+    editHotel: false,
     toast: {
         message: null,
         show: false,
@@ -15,7 +16,7 @@ export const ContextProvider = ({ children }) => {
     const [acomodaciones] = useState([{id: 1 , acomodacion: "Sencilla"}, {id: 2 , acomodacion: "Doble"}, {id: 3 , acomodacion: "Triple"}, {id: 4 , acomodacion: "Cuádruple"}]);
 
     const [toast, setToast] = useState({ message: "", show: false });
-    const [editHotel, setEditHotel] = useState(true);
+    const [editHotel, setEditHotel] = useState(false);
 
     const showToast = (message) => {
         setToast({ message, show: true });

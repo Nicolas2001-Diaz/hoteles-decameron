@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import axiosClient from "../../axios";
 
 function HabitacionEditor({
     index = 0,
@@ -13,34 +14,40 @@ function HabitacionEditor({
     const [tiposHabitacion, setTiposHabitacion] = useState([]);
     const [acomodaciones, setAcomodaciones] = useState([]);
 
-    const { tiposHabitacion, acomodaciones } = useStateContext();
+    function onTipoHabitacionChange(ev) {
+        const newModel = {
+            ...model,
+            tipo: ev.target.value,
+        };
 
-    function onTipoHabitacionChange (ev) => {
-       const newModel = {
-         ...modelo,
-         tipo: ev.target.value
-       }
-       
-       setModel(newModel);
-       
-       getAcomodaciones(ev.target.value);
+        setModel(newModel);
+
+        getAcomodaciones(ev.target.value);
     }
 
-    function getAcomodaciones (tipoHabitacion) => {
-         url = `/acomodaciones/${tipoHabitacion}`; 
-  
-         setLoading(true); 
-  
-         axiosClient.get(url).then(({ data }) => { 
-             setAcomodaciones(data.data); 
-  
-             setLoading(false);
-         });
+    function getTipoHabitaciones() {
+        axiosClient.get("/tipo-habitaciones").then(({ data }) => {
+            setTiposHabitacion(data.data);
+        });
+    }
+
+    function getAcomodaciones(tipoHabitacion) {
+        axiosClient.get(`/acomodaciones/${tipoHabitacion}`).then(({ data }) => {
+            setAcomodaciones(data.data);
+        });
     }
 
     useEffect(() => {
         habitacionChange(model);
     }, [model]);
+
+    useEffect(() => {
+        getTipoHabitaciones();
+
+        if(model.tipo){
+            getAcomodaciones(model.tipo);
+        }
+    }, []);
 
     function onAcomodacionChange(ev) {
         const newModel = {
@@ -56,23 +63,23 @@ function HabitacionEditor({
             <div>
                 <div className="flex justify-between my-3">
                     <h4>
-                        {index + 1}. {model.tipo} - {model.acomodacion}
+                        {index + 1}.
                     </h4>
 
                     <div className="flex items-center">
                         <button
                             type="button"
                             className="
-                              flex
-                              items-center
-                              text-xs
-                              py-1
-                              px-3
-                              mr-2
-                              rounded-sm
-                              text-white
-                              bg-gray-600
-                              hover:bg-gray-700"
+                            flex
+                            items-center
+                            text-xs
+                            py-1
+                            px-3
+                            mr-2
+                            rounded-sm
+                            text-white
+                            bg-gray-600
+                            hover:bg-gray-700"
                             onClick={() => addHabitacion(index + 1)}
                         >
                             <PlusIcon className="w-4" />
@@ -82,16 +89,16 @@ function HabitacionEditor({
                         <button
                             type="button"
                             className="
-                              flex
-                              items-center
-                              text-xs
-                              py-1
-                              px-3
-                              rounded-sm
-                              border border-transparent
-                              text-red-500
-                              hover:border-red-600
-                              font-semibold
+                            flex
+                            items-center
+                            text-xs
+                            py-1
+                            px-3
+                            rounded-sm
+                            border border-transparent
+                            text-red-500
+                            hover:border-red-600
+                            font-semibold
                             "
                             onClick={() => deleteHabitacion(habitacion)}
                         >
@@ -173,7 +180,10 @@ function HabitacionEditor({
                             <option value="">Seleccione</option>
 
                             {acomodaciones.map((acomodacion) => (
-                                <option value={acomodacion.id} key={acomodacion.id}>
+                                <option
+                                    value={acomodacion.id}
+                                    key={acomodacion.id}
+                                >
                                     {acomodacion.acomodacion}
                                 </option>
                             ))}

@@ -25,6 +25,6 @@ class Acomodacion extends Model
     */
     public function tipoHabitaciones()
     {
-        return $this->belongsToMany('App\Models\TipoHabitacion');
+        return $this->belongsToMany('App\Models\TipoHabitacion', 'acomodacion_tipo_habitaciones', 'acomodacion_id', 'tipo_habitacion_id');
     }
 }

@@ -6,14 +6,14 @@ import HotelListItem from "../components/hoteles/HotelListItem";
 
 function HomePage() {
     const { showToast } = useStateContext();
-    const [hotels, setHotels] = useState([]);
+    const [hoteles, setHoteles] = useState([]);
     const [meta, setMeta] = useState({});
     const [loading, setLoading] = useState(false);
 
     const onDeleteClick = (id) => {
         if (window.confirm("¿Esta seguro de eliminar este hotel?")) {
             axiosClient.delete(`/hotel/${id}`).then(() => {
-                getHotels();
+                getHoteles();
 
                 showToast("El hotel fue eliminado");
             });
@@ -21,16 +21,16 @@ function HomePage() {
     };
 
     const onPageClick = (link) => {
-        getHotels(link.url);
+        getHoteles(link.url);
     };
 
-    const getHotels = (url) => {
+    const getHoteles = (url) => {
         url = url || "/hotel";
 
         setLoading(true);
 
         axiosClient.get(url).then(({ data }) => {
-            setHotels(data.data);
+            setHoteles(data.data);
 
             setMeta(data.meta);
 
@@ -39,7 +39,7 @@ function HomePage() {
     };
 
     useEffect(() => {
-        getHotels();
+        getHoteles();
     }, []);
 
     return (
@@ -48,14 +48,14 @@ function HomePage() {
 
             {!loading && (
                 <div>
-                    {hotels.length === 0 && (
+                    {hoteles.length === 0 && (
                         <div className="py-8 text-center">
                             No tiene hoteles creados
                         </div>
                     )}
 
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-                        {hotels.map((hotel) => (
+                        {hoteles.map((hotel) => (
                             <HotelListItem
                                 hotel={hotel}
                                 key={hotel.id}
@@ -64,7 +64,7 @@ function HomePage() {
                         ))}
                     </div>
 
-                    {hotels.length > 0 && (
+                    {hoteles.length > 0 && (
                         <PaginationLinks
                             meta={meta}
                             onPageClick={onPageClick}

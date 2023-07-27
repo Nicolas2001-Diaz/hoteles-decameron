@@ -32,6 +32,7 @@ function HotelFormPage() {
 
         if (id) {
             res = axiosClient.put(`/hotel/${id}`, payload);
+            console.log(payload);
         } else {
             res = axiosClient.post("/hotel", payload);
         }

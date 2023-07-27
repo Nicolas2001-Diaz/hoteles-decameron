@@ -19,3 +19,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('hotel', HotelController::class);
+
+Route::get('/tipo-habitaciones', [HotelController::class, 'getTipoHabitaciones']);
+Route::get('/acomodaciones/{id}', [HotelController::class, 'getAcomodaciones']);

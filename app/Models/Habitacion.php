@@ -26,4 +26,19 @@ class Habitacion extends Model
     {
         return $this->belongsTo('App\Models\Hotel');
     }
+
+    function acomodacionTipoHabitacion()
+    {
+        return $this->belongsTo('App\Models\AcomodacionTipoHabitacion');
+    }
+
+    function getAcomodacionAttribute()
+    {
+        return $this->acomodacionTipoHabitacion->acomodacion;
+    }
+
+    function getTipoHabitacionAttribute()
+    {
+        return $this->acomodacionTipoHabitacion->tipoHabitacion;
+    }
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: `https://quadratic-echelon.000webhostapp.com/api`,
+  baseURL: `http://localhost:8000/api`,
 });
 
 axiosClient.interceptors.response.use(
